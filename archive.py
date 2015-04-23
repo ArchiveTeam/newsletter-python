@@ -14,6 +14,7 @@
 from inbox import Inbox
 from config import *
 import time,json
+import os
 
 # Create the inbox.py object
 inbox = Inbox()
@@ -24,6 +25,8 @@ timenow = time.time()
 # Our message handling function
 def handle(rawdata, to, sender, subject, mailhtml, mailplain, attachments):
     # Write new mails to index.html
+	if not os.path.exists("/home/ubuntu/newspoc/index.html"):
+    		open("/home/ubuntu/newspoc/index.html", "w").close() 
 	with open("/home/ubuntu/newspoc/index.html", "a") as index:
 		file.write("<a href='"+sender+"-"+subject+"-"+str(int(timenow))+"'>"+sender+"-"+subject+"-"+str(int(timenow))+"</a>\n")
 	print "Added "+sender+"-"+subject+"-"+str(int(timenow))+" to index.html"
