@@ -12,23 +12,31 @@
 # Stability and watchdogs
 
 from inbox import Inbox
+from config import *
 import time,json
 
-#Create the inbox.py object
+# Create the inbox.py object
 inbox = Inbox()
 @inbox.collate
 
-#Our message handling function
-def handle(to, sender, subject, body):
-    #Write the components to the .txt file separated by newlines (ok but a little more readable)
+# Our message handling function
+def handle(rawdata, to, sender, subject, mailtext, mailplain, attachments):
+    # Write the components to the .txt file separated by newlines (ok but a little more readable)
 	with open("/home/ubuntu/newspoc/"+sender+"-"+subject+"-"+str(int(time.time()))+".txt","w") as file:
 		file.write(str(to)+"\n")
 		file.write(str(sender)+"\n")
 		file.write(str(subject)+"\n")
-		file.write(body+"\n")
-    #Write the components to the .json file, better for processing later but doesn't solve encoding
+		if not mailtext == None:
+			file.write(mailtext+"\n")
+		if not mailplain == None:
+			file.write(mailplain+"\n")
+		for attachment in attachments:
+			file.write("Attachment:"+attachment[1]+"\n")
+			file.write(attachment[2]+"\n")
+	print "Wrote "+sender+"-"+subject+"-"+str(int(time.time()))+".txt"
+    # Write the components to the .json file, better for processing later but doesn't solve encoding
 	with open("/home/ubuntu/newspoc/"+sender+"-"+subject+"-"+str(int(time.time()))+".json","w") as jsonfile:
-		jsonfile.write(json.dumps({"to":to,"sender":sender,"subject":subject,"body":body}))
-
-#Start the inbox.py server on our local ip address
-inbox.serve(address='172.31.34.123', port=25)
+		jsonfile.write(json.dumps({"rawdata":rawdata, "to":to, "sender":sender, "subject":subject, "mailtext":mailtext, "mailplain":mailplain, "attachments":attachments}))
+	print "Wrote "+sender+"-"+subject+"-"+str(int(time.time()))+".json"
+# Start the inbox.py server on our local ip address
+inbox.serve(address=localIPAddress, port=25)
