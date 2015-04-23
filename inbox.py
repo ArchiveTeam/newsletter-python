@@ -37,8 +37,8 @@ class InboxServer(smtpd.SMTPServer, object):
                 elif mailpart[0] == "text/plain":
                     mailplain = mailpart[1]
         
-        log.debug(dict(rawdata=data, to = rcpttos, sender = mailfrom, subject = subject, mailtext = mailtext, mailplain = mailplain, attachments = attachments))
-        return self._handler(rawdata=data, to = rcpttos, sender = mailfrom, subject = subject, mailtext = mailtext, mailplain = mailplain, attachments = attachments)
+        log.debug(dict(rawdata=data, to = rcpttos, sender = mailfrom, subject = subject, mailhtml = mailhtml, mailplain = mailplain, attachments = attachments))
+        return self._handler(rawdata=data, to = rcpttos, sender = mailfrom, subject = subject, mailhtml = mailhtml, mailplain = mailplain, attachments = attachments)
         
     def parse_subject(self, subject):
         # Decode subject if encoded
