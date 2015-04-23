@@ -27,13 +27,13 @@ class InboxServer(smtpd.SMTPServer, object):
         attachments = []
         for part_of_mail in Parser().parsestr(data).walk():
             attachment, mailcontent = self.parse_data(data)
-            if not mailcontact == None:
-                mail = mailcontect
+            if not mailcontent == None:
+                mail = mailcontent
             else:
                 attachments.append(attachment)
         
-        log.debug(dict(to = rcpttos, sender = mailfrom, subject = subject, body = mailcontent, attachments = attachments))
-        return self._handler(to = rcpttos, sender = mailfrom, subject = subject, body = mailcontent, attachments = attachments)
+        log.debug(dict(rawdata=data, to = rcpttos, sender = mailfrom, subject = subject, body = mailcontent, attachments = attachments))
+        return self._handler(rawdata=data, to = rcpttos, sender = mailfrom, subject = subject, body = mailcontent, attachments = attachments)
         
     def parse_subject(self, subject):
         # Decode subject if encoded
@@ -41,16 +41,16 @@ class InboxServer(smtpd.SMTPServer, object):
         subjectpart = []
         for a, b in encoded:
             if b:
-                subjectpart.append(unicode(a, b).encode('utf8','replace')
+                subjectpart.append(unicode(a, b).encode('utf8','replace'))
             else:
                 subjectpart.append(a)
-        subject = ''.join(subjectpart))
+        subject = ''.join(subjectpart)
         return subject
         
     def parse_data(self, data):
         # Check is part of mail is message or attachment
         # Decode support
-        attachment = []
+        attachment = None
         mailcontent = None
         
         return(attachment, mailcontent)
