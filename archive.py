@@ -45,7 +45,7 @@ def handle(rawdata, to, sender, subject, mailhtml, mailplain, attachments):
 	print "Wrote "+sender+"-"+subject+"-"+str(int(time.time()))+".html"
 	for attachment in attachments:
 		with open("/home/ubuntu/newspoc/"+sender+"-"+subject+"-"+str(int(timenow))+"/attachment-"+attachment[2],"w") as file:
-			file.write(attachment[2])
+			file.write(attachment[1])
 		print "Wrote attachment"+attachment[2]
     # Write the components to the .json file, better for processing later but doesn't solve encoding
 	with open("/home/ubuntu/newspoc/"+sender+"-"+subject+"-"+str(int(timenow))+"/"+sender+"-"+subject+"-"+str(int(timenow))+".json","w") as jsonfile:
