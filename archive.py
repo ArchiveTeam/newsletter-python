@@ -26,6 +26,7 @@ def handle(rawdata, to, sender, subject, mailhtml, mailplain, attachments):
     # Write new mails to index.html
 	with open("/home/ubuntu/newspoc/index.html", "a") as index:
 		file.write("<a href='"+sender+"-"+subject+"-"+str(int(timenow))+"'>"+sender+"-"+subject+"-"+str(int(timenow))+"</a>\n")
+	print "Added "+sender+"-"+subject+"-"+str(int(timenow))+" to index.html"
     # Write the components to the .html file separated by newlines (ok but a little more readable)
 	with open("/home/ubuntu/newspoc/"+sender+"-"+subject+"-"+str(int(timenow))+".html","w") as file:
 		file.write("TO:\n"+str(to)+"\n")
